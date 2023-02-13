@@ -1,6 +1,5 @@
 var recipes = require('../recipes.json');
 var router = require('express').Router();
-var recipes = require('../recipes.json');
 
 router.get('/step/:id', (req, res) => {
   const { id } = req.params;
@@ -24,7 +23,8 @@ router.get('/step/:id', (req, res) => {
   let stop = false;
   const stepIndex = recipe.timers.reduce((prev, currentTime, index) => {
     if (!stop) {
-      if (currentTime >= elapsedTime) {
+      elapsedTime -= currentTime;
+      if (elapsedTime <= 0) {
         stop = true;
       }
       return index;
